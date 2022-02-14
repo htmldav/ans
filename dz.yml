@@ -9,7 +9,7 @@
      name: default-jdk
      state: present
 
-- name: maven
+- name: maven && git
   hosts: assembly
   become: yes
 
@@ -19,17 +19,13 @@
      name: maven
      state: present
 
-- name: git
-  hosts: assembly
-  become: yes
-
   tasks:
   - name: Ensure maven is present
     apt:
      name: git
      state: present
 
-- name: Clone 
+- name: Clone && mvn package && fetch war file
   hosts: assembly
   become: yes
   tasks:
@@ -40,19 +36,12 @@
        clone: yes
        update: yes
 
-
-- name: mvn package
-  hosts: assembly
-  become: yes
   tasks:
    - name: "source code : local install"
      command: mvn --batch-mode --quiet install
      args:
        chdir: "/home/aldav/repos"
 
-- name: fetch war file
-  hosts: assembly
-  become: true  
   tasks:
    - name: "fetch war"
      fetch:
@@ -61,7 +50,7 @@
        flat: true	
 
 
-- name: copy war file
+- name: copy war file && install tomcat server
   hosts: prod
   become: true
   tasks:
@@ -69,10 +58,6 @@
      copy:
        src: /home/aldav/tmp/hello-1.0.war
        dest: /var/lib/tomcat9/webapps
-
-- name: install tomcat server
-  hosts: prod
-  become: true
 
   tasks:
   - name: Ensure tomcat is present
