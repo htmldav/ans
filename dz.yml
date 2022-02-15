@@ -9,11 +9,7 @@
      name: default-jdk
      state: present
 
-<<<<<<< HEAD
 - name: maven && git && Clone && mvn package && fetch war file
-=======
-- name: maven && git
->>>>>>> cb1ca848e2dcf433bd73a804a3dce93917dc8ed7
   hosts: assembly
   become: yes
 
@@ -29,12 +25,6 @@
      name: git
      state: present
 
-<<<<<<< HEAD
-=======
-- name: Clone && mvn package && fetch war file
-  hosts: assembly
-  become: yes
->>>>>>> cb1ca848e2dcf433bd73a804a3dce93917dc8ed7
   tasks:
    - name: Clone a github repository
      git:
